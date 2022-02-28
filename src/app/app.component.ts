@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'herogu-admin';
+
+  constructor(private readonly _api: ApiService) { }
+
+  public async ngOnInit() {
+    await this._api.loadUser();
+  }
 }

@@ -30,6 +30,8 @@ import { ApiService } from './services/api.service';
 import { ProgressService } from './services/progress.service';
 import { SnackbarService } from './services/snackbar.service';
 import { SseService } from './services/sse.service';
+import { AccountComponent } from './components/account/account.component';
+import { TextDialogComponent } from "./components/utils/text-dialog/text-dialog.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { SseService } from './services/sse.service';
     AuthComponent,
     HeaderComponent,
     ProjectsComponent,
+    AccountComponent,
+    TextDialogComponent,
   ],
   imports: [
     BrowserModule,
