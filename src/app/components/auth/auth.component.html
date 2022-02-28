@@ -1,0 +1,21 @@
+<div class="wrapper">
+	<h1>Plateforme d'administration de Herogu</h1>
+	<mat-divider></mat-divider>
+	<div class="auth">
+		<h3>Connexion</h3>
+		<form [formGroup]="connexionForm">
+			<mat-form-field appearance="outline" color="accent">
+				<mat-label>Code élève</mat-label>
+				<input matInput required maxlength="9" minlength="9" placeholder="ufma81293" formControlName="studentId" />
+				<mat-error>Identifiants incorrects</mat-error>
+			</mat-form-field><br>
+			<mat-form-field appearance="outline" color="accent">
+				<mat-label>Mot de passe Isep</mat-label>
+				<input type="password" required matInput formControlName="password">
+				<mat-error>Identifiants incorrects</mat-error>
+			</mat-form-field><br>
+			<button type="submit" color="accent" mat-stroked-button [disabled]="!enabled" (click)="submitAuth()">{{ submitting ? "Connexion..." : "Me connecter" }}</button>
+		</form>
+	</div>
+
+</div>

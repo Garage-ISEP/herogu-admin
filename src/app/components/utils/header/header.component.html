@@ -1,0 +1,17 @@
+<div class="app-header">
+  <mat-progress-bar [mode]="mode"  [value]="value" *ngIf="display"></mat-progress-bar>
+  <mat-toolbar>
+    <a routerLink="/">
+      <img src="/assets/garage.png" class="garage-icon" alt="Garage Logo" />
+      <span>Herogu - Administration</span>
+    </a>
+    <span class="spacer"></span>
+    <button mat-icon-button routerLink="/" class="projects-button" *ngIf="logged">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button *ngIf="logged && user" mat-stroked-button color="accent" routerLink="/account">
+      {{ user?.firstName }} {{ user?.lastName }}
+      <mat-icon>person</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
