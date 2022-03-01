@@ -1,3 +1,4 @@
+import { RepoTree } from 'src/app/models/api/project.model';
 import { PhpInfo, Project, EnvVars } from './../models/api/project.model';
 import { Router } from '@angular/router';
 import { ProgressService } from './progress.service';
@@ -76,8 +77,13 @@ export class ApiService extends BaseApi {
       this._snackbar.snack("Impossible de charger le projet");
     }
   }
+  
+  public async getRepoTree(url: string, sha?: string) {
+    return await this.get<RepoTree>(`/project/repo-tree?link=${encodeURIComponent(url)}` + (sha ? `&sha=${sha}` : ''));
+  }
 
-  public watchStatus(projectId: string): Subject<ProjectStatusResponse> {
+
+  public watchStatus(projectId: string = this.project?.id): Subject<ProjectStatusResponse> {
     try {
       if (!this._subject) {
         this._subject = new Subject<ProjectStatusResponse>();
@@ -92,42 +98,42 @@ export class ApiService extends BaseApi {
   }
 
 
-  public async linkProjectToGithub(projectId: string): Promise<void> {
+  public async linkProjectToGithub(projectId: string = this.project?.id): Promise<void> {
     await this.post(`/project/${projectId}/github-link`);
   }
 
-  public async linkProjectToDocker(projectId: string): Promise<Project> {
+  public async linkProjectToDocker(projectId: string = this.project?.id): Promise<Project> {
     return new Project(await this.post(`/project/${projectId}/docker-link`));
   }
 
-  public async linkProjectToMysql(projectId: string): Promise<Project> {
+  public async linkProjectToMysql(projectId: string = this.project?.id): Promise<Project> {
     return new Project(await this.post(`/project/${projectId}/mysql-link`));
   }
 
-  public async toggleContainer(projectId: string) {
+  public async toggleContainer(projectId: string = this.project?.id) {
     await this.post(`/project/${projectId}/toggle`);
   }
 
-  public async patchPhpError(phpInfos: PhpInfo, projectId: string) {
+  public async patchPhpError(phpInfos: PhpInfo, projectId: string = this.project?.id) {
     await this.patch(`/project/${projectId}/php-log-level`, phpInfos);
   }
 
-  public async patchHttpRoot(projectId: string, httpRootUrl: string, httpRootUrlSha: string) {
+  public async patchHttpRoot(projectId: string = this.project?.id, httpRootUrl: string, httpRootUrlSha: string) {
     await this.patch(`/project/${projectId}/http-root-url`, { httpRootUrl, httpRootUrlSha });
   }
 
-  public async patchEnv(projectId: string, env: EnvVars) {
+  public async patchEnv(projectId: string = this.project?.id, env: EnvVars) {
     await this.patch(`/project/${projectId}/env`, { env });
   }
-  public async patchUsers(projectId: string, users: string[]) {
+  public async patchUsers(projectId: string = this.project?.id, users: string[]) {
     return this.project = await this.patch<unknown, Project>(`/project/${projectId}/user-access`, { users });
   }
 
-  public async toggleNotifications(projectId: string) {
+  public async toggleNotifications(projectId: string = this.project?.id) {
     return this.patch(`/project/${projectId}/toggle-notifications`);
   }
 
-  public async deleteProject(projectId: string) {
+  public async deleteProject(projectId: string = this.project?.id) {
     await this.delete(`/project/${projectId}`);
     this.user.removeProject(projectId);
     if (this.project?.id == projectId)
