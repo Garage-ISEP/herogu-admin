@@ -133,4 +133,14 @@ export class ApiService extends BaseApi {
     if (this.project?.id == projectId)
       this.project = undefined;
   }
+
+  public async search(needle: string, filter: ("project" | "user")[] = ["project", "user"]): Promise<(User | Project)[]> {
+    return (await this.get<(User | Project)[]>(`/admin/search?q=${needle}&filter=${filter}`)).map(e => {
+      if ((e as User).graduatingYear) return new User(e);
+      else return new Project(e);
+    });
+  }
+  public async toggleAdmin(user: User) {
+    await this.patch(`/admin/user/${user.id}/admin`);
+  }
 }

@@ -1,1 +1,36 @@
-<p>projects works!</p>
+<div class="search-header">
+	<mat-form-field appearance="outline" color="accent" class="search">
+		<mat-label>Rechercher un projet / un utilisateur</mat-label>
+		<input matInput type="text" [formControl]="searchInput" />
+		<mat-icon *ngIf="!searching" matSuffix>search</mat-icon>
+		<mat-progress-spinner *ngIf="searching" mode="indeterminate" color="accent"></mat-progress-spinner>
+	</mat-form-field>
+</div>
+<mat-divider></mat-divider>
+<div class="results">
+	<div class="result" *ngFor="let result of searchResults">
+		<ng-template *ngIf="isProject(result) else isUser">
+			<mat-icon matPrefix>folder</mat-icon>
+			<span>{{ result.name }}</span>
+		</ng-template>
+		<ng-template #isUser>
+			<div>
+				<mat-icon matPrefix>person</mat-icon>
+				<span>{{ result.firstName }} {{ result.lastName }}</span>
+				<mat-divider [vertical]="true"></mat-divider>
+				<span>Promotion : {{ result.graduatingYear }}</span>
+			</div>
+			<div>
+				<a mat-icon-button style="color: rgb(181, 188, 228)" [href]="'mailto:' + result.mail" target="_blank">
+					<mat-icon>email</mat-icon>
+				</a>
+				<button mat-icon-button (click)="toggleAdmin(result)" [style.color]="result.admin ? 'orange' : 'white'">
+					<mat-icon>{{ result.admin ? 'star' : 'star_outline' }}</mat-icon>
+				</button>
+				<button mat-icon-button style="color: red">
+					<mat-icon>delete</mat-icon>
+				</button>
+			</div>
+		</ng-template>
+	</div>
+</div>
