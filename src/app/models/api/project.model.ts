@@ -72,6 +72,21 @@ export enum PhpLogLevel {
 }
 
 
+export interface RepoTree {
+  sha: string;
+  url: string;
+  truncated: boolean;
+  tree: {
+    path?: string;
+    fullPath?: string;
+    mode?: string;
+    type?: string;
+    sha?: string;
+    size?: number;
+    url?: string;
+  }[];
+}
+
 export type ProjectStatusResponse = {
   status: ProjectStatus | ContainerStatus;
   origin: Origin;

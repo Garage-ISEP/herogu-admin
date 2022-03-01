@@ -88,8 +88,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "herogu-admin:build",
-            "port": 4201
+            "browserTarget": "herogu-admin:build"
           },
           "configurations": {
             "production": {

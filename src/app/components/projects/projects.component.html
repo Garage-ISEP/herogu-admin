@@ -1,1 +1,50 @@
-<p>projects works!</p>
+<div class="search-header">
+	<mat-form-field appearance="outline" color="accent" class="search">
+		<mat-label>Rechercher un projet / un utilisateur</mat-label>
+		<input matInput type="text" [formControl]="searchInput" />
+		<mat-icon *ngIf="!searching" matSuffix>search</mat-icon>
+		<mat-progress-spinner *ngIf="searching" mode="indeterminate" color="accent"></mat-progress-spinner>
+	</mat-form-field>
+</div>
+<mat-divider></mat-divider>
+<div class="results">
+	<div class="result" *ngFor="let result of searchResults">
+		<ng-container *ngIf="isProject(result) else isUser">
+			<div>
+				<mat-icon matPrefix>folder</mat-icon>
+				<span>{{ result.name }}</span>
+				<mat-divider [vertical]="true"></mat-divider>
+				<a [href]="result.githubLink" target="_blank" class="github-link">{{ result.githubLink }}</a>
+				<mat-divider [vertical]="true"></mat-divider>
+				<span>{{ result.creator.firstName }} {{ result.creator.lastName }}</span>
+			</div>
+			<div>
+				<a mat-icon-button style="color: rgb(181, 188, 228)" [href]="'mailto:' + getCollabMails(result)" target="_blank">
+					<mat-icon>email</mat-icon>
+				</a>
+				<button mat-icon-button [routerLink]="'/project/' + result.id">
+					<mat-icon>arrow_forward</mat-icon>
+				</button>
+			</div>
+		</ng-container>
+		<ng-template #isUser>
+			<div>
+				<mat-icon matPrefix>person</mat-icon>
+				<span>{{ result.firstName }} {{ result.lastName }}</span>
+				<mat-divider [vertical]="true"></mat-divider>
+				<span>Promotion : {{ result.graduatingYear }}</span>
+			</div>
+			<div>
+				<a mat-icon-button style="color: rgb(181, 188, 228)" [href]="'mailto:' + result.mail" target="_blank">
+					<mat-icon>email</mat-icon>
+				</a>
+				<button mat-icon-button (click)="toggleAdmin(result)" [style.color]="result.admin ? 'orange' : 'white'">
+					<mat-icon>{{ result.admin ? 'star' : 'star_outline' }}</mat-icon>
+				</button>
+				<button mat-icon-button style="color: red" (click)="deleteUser(result)">
+					<mat-icon>delete</mat-icon>
+				</button>
+			</div>
+		</ng-template>
+	</div>
+</div>
