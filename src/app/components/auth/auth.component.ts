@@ -1,9 +1,11 @@
+import { AuthErrorModel } from './../../models/api/auth.model';
 import { SnackbarService } from './../../services/snackbar.service';
 import { ApiService } from './../../services/api.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LoginRequestModel } from 'src/app/models/api/auth.model';
 
 @Component({
   selector: 'app-auth',
@@ -27,12 +29,19 @@ export class AuthComponent {
   public async submitAuth() {
     this.submitting = true;
     try {
-      const res = await this._api.login({ ...this.connexionForm.value });
+      const res = await this._api.login(new LoginRequestModel(this.connexionForm.value.studentId, this.connexionForm.value.password));
       this._router.navigateByUrl("/");
       this._snackbar.snack(`Bienvenue ${res.firstName} !`);
     } catch (e) {
-      if (e instanceof HttpErrorResponse && (e.status === 401 || e.status === 400))
-        this._snackbar.snack("Ton identifiant ou mot de passe est incorrect.");
+      if (e instanceof HttpErrorResponse) {
+        if (e.status === 401 || e.status === 400)
+          this._snackbar.snack("Ton identifiant ou mot de passe est incorrect.");
+        else if (e.status === 403) {
+          const body: AuthErrorModel = e.error;
+          if (body.reason === "admin" || body.reason === "promotion")
+            this._snackbar.snack("Tu n'es pas autorisé à te connecter. Plateforme réservée aux administrateurs.");
+        }
+      }
       else
         this._snackbar.snack("Une erreur est survenue.");
       this._api.logout();

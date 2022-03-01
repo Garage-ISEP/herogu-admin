@@ -1,0 +1,62 @@
+h1 {
+	color: whitesmoke;
+	text-align: center;
+	font-size: 2.5rem;
+	margin-top: 35px;
+}
+h2 {
+	text-align: center;
+	color: whitesmoke;
+}
+:host {
+	color: whitesmoke;
+	box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14),
+		0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 4px;
+	width: 95%;
+	max-width: 500px;
+	margin: 40px auto;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	mat-form-field, app-add-student, .notification {
+		width: 70%;
+		display: inline-block;
+		margin: auto;
+	}
+
+	mat-divider {
+		border-color: rgb(143, 0, 0);
+	}
+
+	.header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+		h3 {
+			margin: 0;
+		}
+		button {
+			margin: 0;
+			min-width: 45px;
+		}
+	}
+
+	button,
+	a {
+		margin: auto;
+		min-width: 50%;
+		font-size: 0.95rem;
+	}
+	button:not(.resend-mail),
+	a {
+		border-color: rgb(143, 0, 0);
+	}
+
+	.notifications {
+    margin: 0px auto 20px auto;
+	}
+}

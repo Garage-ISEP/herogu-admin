@@ -7,8 +7,10 @@ export class User extends BaseModel {
   public lastName: string;
   public mail: string;
   public admin: boolean;
+  public banned: boolean;
   public graduatingYear: number;
   public collaborators?: Collaborator[];
+  public createdProjects?: Project[];
   public createdDate: Date;
   public updatedDate: Date;
 

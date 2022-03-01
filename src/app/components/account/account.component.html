@@ -1,0 +1,20 @@
+<div class="global-wrapper">
+  <h1>Mon compte</h1>
+  <div class="wrapper" *ngIf="user">
+    <ng-container>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Code élève</mat-label>
+        <input matInput [value]="user.id" disabled />
+      </mat-form-field>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Email</mat-label>
+        <input matInput [value]="user.mail" disabled/>
+      </mat-form-field>
+			<mat-form-field appearance="outline" color="accent">
+				<mat-label>Promotion</mat-label>
+				<input matInput [value]="user.graduatingYear" disabled/>
+			</mat-form-field>
+    </ng-container>
+    <button mat-stroked-button (click)="logout()">Me déconnecter</button>
+  </div>
+</div>
