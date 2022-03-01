@@ -42,7 +42,11 @@ export class ProjectsComponent implements OnInit {
   }
 
   public async toggleAdmin(user: User) {
-    this._dialog.open(TextDialogComponent, { data: !user.admin ? `Promouvoir ${user.firstName} ${user.lastName} ? Il pourra accéder à cette plateforme et administrer tous les projets` : `Destituer ${user.firstName} ${user.lastName} ? Il ne pourra plus accéder à cette plateforme.` }).afterClosed().subscribe(async (e: string) => {
+    if (user.id == this._api.user.id) {
+      this._snackbar.snack("Vous ne pouvez pas vous destituer vous même.");
+      return;
+    }
+    this._dialog.open(TextDialogComponent, { data: !user.admin ? `Promouvoir ${user.firstName} ${user.lastName} ? Cette personne pourra accéder à cette plateforme et administrer tous les projets` : `Destituer ${user.firstName} ${user.lastName} ? Cette personne ne pourra plus accéder à cette plateforme.` }).afterClosed().subscribe(async (e: string) => {
       if (e) {
         try {
           await this._api.toggleAdmin(user);
@@ -55,8 +59,25 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  public async deleteUser(user: User) {
+    this._dialog.open(TextDialogComponent, { data: `Supprimer l'utilisateur ${user.firstName} ${user.lastName} ? Tous ses projets créés seront aussi supprimés.` }).afterClosed().subscribe(async (e: string) => {
+      if (e) {
+        try {
+          await this._api.removeUser(user);
+          this.searchResults = this.searchResults.filter(u => u.id != user.id && !user.createdProjects?.map(p => p.id)?.includes(u.id));
+          this._snackbar.snack(`${user.firstName} ${user.lastName} a été supprimé`);
+        } catch (e) {
+          this._snackbar.snack("Une erreur est apparue lors de la suppression de l'utilisateur");
+        }
+      }
+    });
+  }
+
   public isProject(result: Project | User) {
     return result instanceof Project;
+  }
+  public getCollabMails(project: Project) {
+    return project.collaborators.map(c => c.user.mail).join(", ");
   }
 
 }

@@ -143,4 +143,7 @@ export class ApiService extends BaseApi {
   public async toggleAdmin(user: User) {
     await this.patch(`/admin/user/${user.id}/admin`);
   }
+  public async removeUser(user: User) {
+    await this.delete(`/admin/user/${user.id}`);
+  }
 }

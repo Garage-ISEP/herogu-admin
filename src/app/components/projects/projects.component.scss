@@ -39,12 +39,17 @@ mat-progress-spinner, mat-progress-spinner ::ng-deep svg {
     display: flex;
     align-items: center;
 		justify-content: space-between;
+		margin: 15px 0;
 		div {
 			display: flex;
 			align-items: center;
 		}
 		div:first-of-type mat-icon {
 			margin-right: 10px;
+		}
+		.github-link {
+			text-decoration: underline;
+			text-underline-offset: 2px;
 		}
 		mat-divider.mat-divider-vertical {
 			height: 25px;
