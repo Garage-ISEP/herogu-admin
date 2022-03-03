@@ -97,11 +97,12 @@ export class ApiService extends BaseApi {
     }
   }
   
-  public unwatchStatus() {
+  public exitProject() {
     if (this._subject) {
       this._subject.complete();
       this._subject = null;
     }
+    this.project = undefined;
   }
 
   public async linkProjectToGithub(projectId: string = this.project?.id): Promise<void> {
