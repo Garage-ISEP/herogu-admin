@@ -14,7 +14,7 @@ export class SseService {
 
   public getSse<Q, R>(url: string, params?: Q): Observable<R> {
     return new Observable(observer => {
-      const eventSource = this.getEventSource(url, {...params, authorization: `Bearer ${localStorage.getItem("token")}`});
+      const eventSource = this.getEventSource(url, {...params, authorization: `Bearer ${localStorage.getItem("admin-token")}`});
       eventSource.onmessage = event => {
         this.zone.run(() => {
           if (typeof event.data === 'string' && event.data.startsWith('{'))
