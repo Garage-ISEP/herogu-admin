@@ -17,7 +17,7 @@
 	</mat-form-field>
 	<mat-form-field appearance="outline" color="accent">
 		<mat-label>Mot de passe</mat-label>
-		<input matInput disabled type="password" [(ngModel)]="project.mysqlInfo.password">
+		<input matInput disabled [(ngModel)]="project.mysqlInfo.password">
 		<button mat-icon-button matSuffix (click)="copy(project.mysqlInfo.password)"><mat-icon class="mat-18">content_copy</mat-icon></button>
 	</mat-form-field>
 </div>
